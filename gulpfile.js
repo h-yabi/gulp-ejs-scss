@@ -1,10 +1,12 @@
 // gulpプラグインを読み込みます
 const { src, dest, watch, series, parallel } = require("gulp");
+const browserSync = require('browser-sync');
 const ejs  = require('gulp-ejs');
 const sass = require("gulp-sass")(require("sass"));
 const webp = require('gulp-webp');
 const rename = require('gulp-rename');
-const browserSync = require('browser-sync');
+const uglify = require("gulp-uglify");
+
 
 /**
  * serverを立ち上げるタスクです
@@ -73,6 +75,7 @@ const compileSass = () =>
  */
 const watchSassFiles = () => watch("src/scss/style.scss", series(compileSass, browserReloadFunc));
 
+
 /**
  * imagesをwebpに変換するタスクです
  */
@@ -98,9 +101,31 @@ const convertWebp = () =>
 const watchImagesFiles = () => watch("src/images/**/*.{jpg,png}", series(convertWebp, browserReloadFunc));
 
 
+/**
+ * jsをコンパイルするタスクです
+ */
+const compileJs = () =>
+  // jsフォルダー以下の拡張子がjsのファイルを取得
+  src("src/js/**/*.js")
+    // jsをコンパイル
+    .pipe(uglify())
+    // .pipe(rename({
+    //   extname: '.min.js'
+    // }))
+    // jsフォルダー以下に保存
+    .pipe(dest("dist/js"));
+
+/**
+ * jsファイルを監視し、変更があったらSassを変換します
+ */
+const watchJsFiles = () => watch("src/js/**/*.js", series(compileJs, browserReloadFunc));
+
+
+
 // npx gulpコマンド実行時
 exports.default = series(
   compileEjs,
   compileSass,
   convertWebp,
-  parallel(watchEjsFiles, watchSassFiles, watchImagesFiles, browserSyncFunc));
+  compileJs,
+  parallel(watchEjsFiles, watchSassFiles, watchImagesFiles, watchJsFiles, browserSyncFunc));
