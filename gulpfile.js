@@ -1,9 +1,34 @@
 // gulpプラグインを読み込みます
 const { src, dest, watch, series, parallel } = require("gulp");
 // Sassをコンパイルするプラグインを読み込みます
+const ejs  = require('gulp-ejs');
 const sass = require("gulp-sass")(require("sass"));
 const webp = require('gulp-webp');
 const rename = require('gulp-rename');
+
+
+/**
+ * ejsをコンパイルするタスクです
+ */
+const compileEjs = () =>
+  // ejsフォルダー以下の拡張子がejsのファイルを取得
+  src(["src/ejs/**/*.ejs", '!' + "src/ejs/**/_*.ejs"])
+    // ejsをコンパイル
+    .pipe(ejs({}, { ext: '.html'}))
+    // .pipe(ejs({
+    //   // オプションを追加
+    //   msg: 'Hello Gulp!'
+    // }))
+    .pipe(rename({
+      extname: '.html'
+    }))
+    // htmlフォルダー以下に保存
+    .pipe(dest("dist"));
+
+/**
+ * ejsファイルを監視し、変更があったら変換します
+ */
+const watchEjsFiles = () => watch("src/ejs/**/*.ejs", compileEjs);
 
 
 /**
@@ -52,5 +77,9 @@ const convertWebp = () =>
 const watchImagesFiles = () => watch("src/images/**/*.{jpg,png}", convertWebp);
 
 
-// npx gulpというコマンドを実行した時、watchSassFiles, watchImagesFilesが実行されるようにします
-exports.default = series(compileSass, convertWebp, parallel(watchSassFiles, watchImagesFiles));
+// npx gulpコマンド実行時
+exports.default = series(
+  compileEjs,
+  compileSass,
+  convertWebp,
+  parallel(watchEjsFiles, watchSassFiles, watchImagesFiles));

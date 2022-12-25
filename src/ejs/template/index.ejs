@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <!-------------------------------------------------------->
+    <!-- ▼ ページごとに設定 - start -->
+    <% var path = '../'; %>
+    <!---------->
+    <% var title = 'タイトルが入ります'; %>
+    <!---------->
+    <% var description = 'ディスクリプションが入ります'; %>
+    <!---------->
+    <% var siteName = 'サイト名が入ります'; %>
+    <!---------->
+    <% var url = 'http://www.sample.com'; %>
+    <!-------------------------------------------------------->
+
+    <%- include(`${path}partials/_head`); %>
+
+    <title><%- title %></title>
+    <meta name="description" content="<%- description %>" />
+
+    <!-- OGP共通項目 -->
+    <meta property="og:type" content="WEBsite" />
+    <meta property="og:title" content="<%- title %>" />
+    <meta property="og:url" content="<%- url %>" />
+    <meta property="og:description" content="<%- description %>" />
+    <meta property="og:image" content="<%- url %>/img/" />
+    <meta property="og:site_name" content="<%- siteName %>" />
+
+    <!-- Twitter用 -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@twitter_name" />
+    <meta name="twitter:title" content="<%- title %>" />
+    <meta name="twitter:url" content="<%- url %>" />
+    <meta name="twitter:description" content="<%- description %>" />
+
+    <link rel="canonical" href="<%- url %>" />
+    <link rel="icon" href="<%- url %>/img/favicon.png" />
+    <link rel="apple-touch-icon" href="<%- url %>/img/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+
+  <body>
+    <%- include(`${path}partials/_header`, { active: 'top' }); %>
+
+    <!-------------------------------------------------------->
+    <!-- ▼ ココにコンテンツが入ります - end -->
+    <!-------------------------------------------------------->
+    コンテンツが入ります！<br />
+
+    <!-------------------------------------------------------->
+    <!-- ▲ ココにコンテンツが入ります - end -->
+    <!-------------------------------------------------------->
+
+    <%- include(`${path}partials/_footer`); %>
+  </body>
+</html>
