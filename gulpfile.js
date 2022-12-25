@@ -126,6 +126,6 @@ const watchJsFiles = () => watch("src/js/**/*.js", series(compileJs, browserRelo
 exports.default = series(
   compileEjs,
   compileSass,
-  convertWebp,
   compileJs,
-  parallel(watchEjsFiles, watchSassFiles, watchImagesFiles, watchJsFiles, browserSyncFunc));
+  convertWebp,
+  parallel(watchEjsFiles, watchSassFiles, watchJsFiles, watchImagesFiles, browserSyncFunc));
