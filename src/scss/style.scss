@@ -1,19 +1,10 @@
-// ネストのテスト
-div {
-  p {
-    font-weight: bold;
-  }
-  ul {
-    li {
-      font-size: 12px;
-      color: yellow;
-    }
-  }
+@use '_reset.scss';
+@use '_base.scss';
+
+.header {
+  background-color: lightblue;
 }
 
-// 変数のテスト
-$fontColor: #525252;
-
-h1 {
-  color: $fontColor;
+.footer {
+  background-color: lightgreen;
 }

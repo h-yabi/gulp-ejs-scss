@@ -1,10 +1,31 @@
 // gulpプラグインを読み込みます
 const { src, dest, watch, series, parallel } = require("gulp");
-// Sassをコンパイルするプラグインを読み込みます
 const ejs  = require('gulp-ejs');
 const sass = require("gulp-sass")(require("sass"));
 const webp = require('gulp-webp');
 const rename = require('gulp-rename');
+const browserSync = require('browser-sync');
+
+/**
+ * serverを立ち上げるタスクです
+ */
+const browserSyncFunc = () => {
+  browserSync.init({
+    //デフォルトの connected のメッセージ非表示
+    notify: false,
+    server: {
+      baseDir: 'dist',
+    },
+    startPath: './index.html',
+    reloadOnRestart: true,
+  });
+};
+
+// ブラウザ自動リロード
+const browserReloadFunc = (done) => {
+  browserSync.reload();
+  done();
+};
 
 
 /**
@@ -28,7 +49,7 @@ const compileEjs = () =>
 /**
  * ejsファイルを監視し、変更があったら変換します
  */
-const watchEjsFiles = () => watch("src/ejs/**/*.ejs", compileEjs);
+const watchEjsFiles = () => watch("src/ejs/**/*.ejs", series(compileEjs, browserReloadFunc));
 
 
 /**
@@ -50,7 +71,7 @@ const compileSass = () =>
 /**
  * Sassファイルを監視し、変更があったらSassを変換します
  */
-const watchSassFiles = () => watch("src/scss/style.scss", compileSass);
+const watchSassFiles = () => watch("src/scss/style.scss", series(compileSass, browserReloadFunc));
 
 /**
  * imagesをwebpに変換するタスクです
@@ -74,7 +95,7 @@ const convertWebp = () =>
 /**
  * imagesファイルを監視し、変更があったらwebpに変換します
  */
-const watchImagesFiles = () => watch("src/images/**/*.{jpg,png}", convertWebp);
+const watchImagesFiles = () => watch("src/images/**/*.{jpg,png}", series(convertWebp, browserReloadFunc));
 
 
 // npx gulpコマンド実行時
@@ -82,4 +103,4 @@ exports.default = series(
   compileEjs,
   compileSass,
   convertWebp,
-  parallel(watchEjsFiles, watchSassFiles, watchImagesFiles));
+  parallel(watchEjsFiles, watchSassFiles, watchImagesFiles, browserSyncFunc));
