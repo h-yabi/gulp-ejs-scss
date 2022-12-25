@@ -6,6 +6,7 @@ const sass = require("gulp-sass")(require("sass"));
 const webp = require('gulp-webp');
 const rename = require('gulp-rename');
 const uglify = require("gulp-uglify");
+const htmlMin = require('gulp-htmlmin');
 
 
 /**
@@ -45,6 +46,20 @@ const compileEjs = () =>
     .pipe(rename({
       extname: '.html'
     }))
+    .pipe(
+      htmlMin({
+        //圧縮時のオプション
+        removeComments: true, //コメントを削除
+        collapseWhitespace: true, //余白を詰める
+        collapseInlineTagWhitespace: true, //inline要素のスペース削除（spanタグ同士の改行などを詰める
+        preserveLineBreaks: true, //タグ間の余白を詰める
+        /*
+         *オプション参照：https://github.com/kangax/html-minifier
+         */
+      })
+    )
+
+
     // htmlフォルダー以下に保存
     .pipe(dest("dist"));
 
