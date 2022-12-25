@@ -7,6 +7,7 @@ const webp = require('gulp-webp');
 const rename = require('gulp-rename');
 const uglify = require("gulp-uglify");
 const htmlMin = require('gulp-htmlmin');
+const prettify = require('gulp-prettify');
 
 
 /**
@@ -50,12 +51,19 @@ const compileEjs = () =>
       htmlMin({
         //圧縮時のオプション
         removeComments: true, //コメントを削除
-        collapseWhitespace: true, //余白を詰める
-        collapseInlineTagWhitespace: true, //inline要素のスペース削除（spanタグ同士の改行などを詰める
-        preserveLineBreaks: true, //タグ間の余白を詰める
+        collapseWhitespace: false, //余白を詰める
+        collapseInlineTagWhitespace: false, //inline要素のスペース削除（spanタグ同士の改行などを詰める
+        preserveLineBreaks: false, //タグ間の余白を詰める
         /*
          *オプション参照：https://github.com/kangax/html-minifier
          */
+      })
+    )
+    .pipe(
+      prettify({
+        //整形
+        indent_with_tabs: true, //スペースではなくタブを使用
+        indent_size: 2,
       })
     )
 
@@ -97,9 +105,9 @@ const watchSassFiles = () => watch("src/scss/style.scss", series(compileSass, br
 const convertWebp = () =>
   // imagesフォルダー以下の拡張子がjpgかpngのファイルを取得
   src("src/images/**/*.{jpg,png}")
-    .pipe(rename(function(path) {
-      path.basename += path.extname;
-    }))
+    // .pipe(rename(function(path) {
+    //   path.basename += path.extname;
+    // }))
     // webpに変換
     .pipe(webp())
     // .pipe(webp({
@@ -110,10 +118,16 @@ const convertWebp = () =>
     // imagesフォルダー以下に保存
     .pipe(dest("dist/images"));
 
+const convertOtherImages = () =>
+  // imagesフォルダー以下の拡張子がjpgかpngのファイルを取得
+  src("src/images/**/*.{gif,svg}")
+    // imagesフォルダー以下に保存
+    .pipe(dest("dist/images"));
+
 /**
  * imagesファイルを監視し、変更があったらwebpに変換します
  */
-const watchImagesFiles = () => watch("src/images/**/*.{jpg,png}", series(convertWebp, browserReloadFunc));
+const watchImagesFiles = () => watch("src/images/**/*.{jpg,png,gif,svg}", series(convertWebp, convertOtherImages, browserReloadFunc));
 
 
 /**
@@ -143,4 +157,5 @@ exports.default = series(
   compileSass,
   compileJs,
   convertWebp,
+  convertOtherImages,
   parallel(watchEjsFiles, watchSassFiles, watchJsFiles, watchImagesFiles, browserSyncFunc));
