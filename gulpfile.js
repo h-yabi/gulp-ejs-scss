@@ -52,6 +52,8 @@ const convertWebp = () =>
 const watchImagesFiles = () => watch("src/images/**/*.{jpg,png}", convertWebp);
 
 
-// npx gulpというコマンドを実行した時、watchSassFilesが実行されるようにします
-exports.default = watchSassFiles;
-exports.default = watchImagesFiles;
+// npx gulpというコマンドを実行した時、watchSassFiles, watchImagesFilesが実行されるようにします
+exports.default = () => {
+  watchSassFiles();
+  watchImagesFiles();
+}
