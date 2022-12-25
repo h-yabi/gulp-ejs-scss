@@ -1,5 +1,5 @@
 // gulpプラグインを読み込みます
-const { src, dest, watch } = require("gulp");
+const { src, dest, watch, series, parallel } = require("gulp");
 // Sassをコンパイルするプラグインを読み込みます
 const sass = require("gulp-sass")(require("sass"));
 const webp = require('gulp-webp');
@@ -53,7 +53,4 @@ const watchImagesFiles = () => watch("src/images/**/*.{jpg,png}", convertWebp);
 
 
 // npx gulpというコマンドを実行した時、watchSassFiles, watchImagesFilesが実行されるようにします
-exports.default = () => {
-  watchSassFiles();
-  watchImagesFiles();
-}
+exports.default = series(compileSass, convertWebp, parallel(watchSassFiles, watchImagesFiles));
