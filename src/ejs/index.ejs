@@ -2,40 +2,21 @@
 <html lang="ja">
   <head>
     <!-------------------------------------------------------->
-    <% var path = './'; %>
-    <% var title = 'タイトルが入ります'; %>
-    <% var description = 'ディスクリプションが入ります'; %>
-    <% var siteName = 'サイト名が入ります'; %>
-    <% var url = 'http://www.sample.com'; %>
+    <% const path = './'; %>
+    <%
+      const pageMeta = {
+        title: 'トップページ',
+        description: 'トップページのディスクリプション',
+        url: '', // トップページの場合は空文字
+      }
+    %>
     <!-------------------------------------------------------->
-
-    <%- include(`${path}partials/_head`); %>
-
-    <title><%- title %></title>
-    <meta name="description" content="<%- description %>" />
-
-    <!-- OGP共通項目 -->
-    <meta property="og:type" content="WEBsite" />
-    <meta property="og:title" content="<%- title %>" />
-    <meta property="og:url" content="<%- url %>" />
-    <meta property="og:description" content="<%- description %>" />
-    <meta property="og:image" content="<%- url %>/img/" />
-    <meta property="og:site_name" content="<%- siteName %>" />
-
-    <!-- Twitter用 -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@twitter_name" />
-    <meta name="twitter:title" content="<%- title %>" />
-    <meta name="twitter:url" content="<%- url %>" />
-    <meta name="twitter:description" content="<%- description %>" />
-
-    <link rel="canonical" href="<%- url %>" />
-    <link rel="icon" href="<%- url %>/img/favicon.png" />
-    <link rel="apple-touch-icon" href="<%- url %>/img/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/css/style.css" />
+    <%- include(`${path}partials/_head`, { meta: pageMeta }) %>
 
 
-    <!-- ▼ ページ固有の css はココで読み込む -->
+    <!-------------------------------------------------------->
+    <!-- ▼▼▼ ページ固有の css はココで読み込む - start -->
+    <!-------------------------------------------------------->
     <!-- swiper(スライダー) を読み込んでいる -->
     <link
       rel="stylesheet"
@@ -44,7 +25,9 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-
+    <!-------------------------------------------------------->
+    <!-- ▲▲▲ ページ固有の css はココで読み込む - end -->
+    <!-------------------------------------------------------->
   </head>
 
 
@@ -53,8 +36,9 @@
     <%- include(`${path}partials/_header`, { active: 'top' }); %>
 
     <!-------------------------------------------------------->
-    <!-- ▼ ココにコンテンツが入ります - end -->
+    <!-- ▼▼▼ ココにコンテンツが入ります - start -->
     <!-------------------------------------------------------->
+
     コンテンツが入ります！<br />
     コンテンツが入ります！
 
@@ -109,17 +93,19 @@
     <!-- // .swiper -->
 
 
-
     <!-------------------------------------------------------->
-    <!-- ▲ ココにコンテンツが入ります - end -->
+    <!-- ▲▲▲ ココにコンテンツが入ります - end -->
     <!-------------------------------------------------------->
 
     <%- include(`${path}partials/_footer`); %>
-    <!-- jQuery, 共通で使用する src/assets/js/common.js を読み込み -->
     <%- include(`${path}partials/_common_js`); %>
 
-    <!-- ▼ ページ固有の js はココで読み込む -->
+
+    <!-------------------------------------------------------->
+    <!-- ▼▼▼ ページ固有の js はココで読み込む - start -->
+    <!-------------------------------------------------------->
     <!-- swiper(スライダー) を読み込んでいる -->
+
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js"
       integrity="sha512-wdUM0BxMyMC/Yem1RWDiIiXA6ssXMoxypihVEwxDc+ftznGeRu4s9Fmxl8PthpxOh5CQ0eqjqw1Q8ScgNA1moQ=="
@@ -127,6 +113,10 @@
       referrerpolicy="no-referrer"
     ></script>
     <script src="/js/index.js"></script>
+
+    <!-------------------------------------------------------->
+    <!-- ▲▲▲ ページ固有の js はココで読み込む - end -->
+    <!-------------------------------------------------------->
 
   </body>
 </html>
