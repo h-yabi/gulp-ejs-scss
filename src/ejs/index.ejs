@@ -3,16 +3,11 @@
   <head>
     <!-------------------------------------------------------->
     <% const path = './'; %>
-    <%
-      const pageMeta = {
-        title: 'トップページ',
-        description: 'トップページのディスクリプション',
-        url: '', // トップページの場合は空文字
-      }
-    %>
     <!-------------------------------------------------------->
-    <%- include(`${path}partials/_head`, { meta: pageMeta }) %>
-
+    <% const pageMeta = { title: 'トップページ', description:
+    'トップページのディスクリプション', url: '', }; %>
+    <!-------------------------------------------------------->
+    <%- include(`${path}partials/_head`, { meta: pageMeta }); %>
 
     <!-------------------------------------------------------->
     <!-- ▼▼▼ ページ固有の css はココで読み込む - start -->
@@ -30,8 +25,6 @@
     <!-------------------------------------------------------->
   </head>
 
-
-
   <body>
     <%- include(`${path}partials/_header`, { active: 'top' }); %>
 
@@ -42,11 +35,10 @@
     コンテンツが入ります！<br />
     コンテンツが入ります！
 
-
     <!-- [リンク 参考] template ページへリンク -->
-    <div style="margin: 20px;">
+    <div style="margin: 20px">
       <a href="/template/">
-        他のページへリンク<br>
+        他のページへリンク<br />
         サンプルは、template という名前のページ
       </a>
     </div>
@@ -56,50 +48,41 @@
       画像ファイルは、.svg, .gif 以外は .webp という形式（ファイルサイズが軽い画像）に変換されるので、
       その際は拡張子が .webp になるので注意
      -->
-    <div style="margin: 20px;">
-      <img src="/images/icon-twitter-circle.svg" alt="" width="100px" height="auto" />
+    <div style="margin: 20px">
+      <img
+        src="/images/icon-twitter-circle.svg"
+        alt=""
+        width="100px"
+        height="auto"
+      />
     </div>
 
     <!-- [swiper 参考] -->
-    <div class="top-swiper" style="width: 500px; margin: 100px auto; overflow: hidden;">
+    <div
+      class="top-swiper"
+      style="width: 500px; margin: 100px auto; overflow: hidden"
+    >
       <div class="swiper-wrapper">
         <div class="swiper-slide">
-          <img
-            src="/images/swiper-slide-01.webp"
-            alt=""
-            width=""
-            height=""
-          />
+          <img src="/images/swiper-slide-01.webp" alt="" width="" height="" />
         </div>
         <div class="swiper-slide">
-          <img
-            src="/images/swiper-slide-02.webp"
-            alt=""
-            width=""
-            height=""
-          />
+          <img src="/images/swiper-slide-02.webp" alt="" width="" height="" />
         </div>
         <div class="swiper-slide">
-          <img
-            src="/images/swiper-slide-03.webp"
-            alt=""
-            width=""
-            height=""
-          />
+          <img src="/images/swiper-slide-03.webp" alt="" width="" height="" />
         </div>
       </div>
       <!-- // .swiper-wrapper -->
     </div>
     <!-- // .swiper -->
 
-
     <!-------------------------------------------------------->
     <!-- ▲▲▲ ココにコンテンツが入ります - end -->
     <!-------------------------------------------------------->
 
-    <%- include(`${path}partials/_footer`); %>
-    <%- include(`${path}partials/_common_js`); %>
-
+    <%- include(`${path}partials/_footer`); %> <%-
+    include(`${path}partials/_common_js`); %>
 
     <!-------------------------------------------------------->
     <!-- ▼▼▼ ページ固有の js はココで読み込む - start -->
@@ -117,6 +100,5 @@
     <!-------------------------------------------------------->
     <!-- ▲▲▲ ページ固有の js はココで読み込む - end -->
     <!-------------------------------------------------------->
-
   </body>
 </html>
